@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+
 import {
   ChevronDownIcon,
   FunnelIcon,
@@ -8,6 +9,7 @@ import {
   PlusIcon,
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
+import Pagination from "./Pagination";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -88,6 +90,16 @@ const products = [
   },
   {
     id: 3,
+    name: "Basic Tee",
+    href: "#",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: "$35",
+    color: "Black",
+  },
+  {
+    id: 4,
     name: "Basic Tee",
     href: "#",
     imageSrc:
@@ -425,6 +437,7 @@ export function ProductsList() {
                 </div>
               </div>
             </section>
+            <Pagination></Pagination>
           </main>
         </div>
       </div>
