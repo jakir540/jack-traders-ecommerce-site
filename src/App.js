@@ -3,14 +3,13 @@ import React from "react";
 import { Counter } from "./features/counter/Counter";
 import Home from "./pages/Home";
 
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import SigninPage from "./pages/SigninPage";
 import CartPage from "./pages/CartPage";
 import Checkout from "./pages/Checkout";
+import ProductDetails from "./features/products-list/components/ProductDetails";
+import ProductDetailPage from "./pages/ProductDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -33,12 +32,16 @@ const router = createBrowserRouter([
     path: "/checkout",
     element: <Checkout></Checkout>,
   },
+  {
+    path: "/productDetails",
+    element: <ProductDetailPage></ProductDetailPage>,
+  },
 ]);
 
 function App() {
   return (
     <div className="App">
-     <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </div>
   );
 }
