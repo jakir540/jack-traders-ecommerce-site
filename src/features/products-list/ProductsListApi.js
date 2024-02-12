@@ -1,7 +1,8 @@
-export function fetchProducts(amount = 1) {
+export function fetchAllProducts() {
+  //todo
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080");
+    const response = await fetch("https://dummyjson.com/products?limit=100");
     const data = await response.json();
-    resolve(data);
+    resolve({data});
   });
 }
