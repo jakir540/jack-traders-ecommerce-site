@@ -575,8 +575,8 @@ const products = [
   },
 ];
 
-const Brands = [...new Set([...products.map((product) => product.brand)])];
+const Brands = [...new Set([...products.map((product) => product.category)])];
 
 console.log({Brands});
 const result = Brands.map(brand => ({value:brand,label:brand, checked:false}))
-console.log(result)
+

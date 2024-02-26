@@ -13,14 +13,18 @@ import {
 import Pagination from "../Pagination";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllProductsAsync, selectAllProducts } from "../ProductsListSlice";
+import {
+  fetchAllProductsAsync,
+  fetchAllProductsByFilterAsync,
+  selectAllProducts,
+} from "../ProductsListSlice";
+import { fetchAllProductsByFilter } from "../ProductsListApi";
 
 const sortOptions = [
-  { name: "Most Popular", href: "#", current: true },
-  { name: "Best Rating", href: "#", current: false },
-  { name: "Newest", href: "#", current: false },
-  { name: "Price: Low to High", href: "#", current: false },
-  { name: "Price: High to Low", href: "#", current: false },
+  { name: "Most Popular", sort: "price", order: "asc", current: true },
+  { name: "Newest", sort: "price", order: "asc", current: false },
+  { name: "Price: Low to High", sort: "price", order: "asc", current: false },
+  { name: "Price: High to Low", sort: "price", order: "desc", current: false },
 ];
 const subCategories = [
   { name: "smartphones", href: "#" },
@@ -29,76 +33,60 @@ const subCategories = [
   { name: "groceries", href: "#" },
   { name: "Laptop Sleeves", href: "#" },
   { name: "home-decoration", href: "#" },
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
 ];
 const filters = [
   {
-    id: "Brands",
-    name: "Brands",
-    options: [ { value: 'Apple', label: 'Apple', checked: false },
-    { value: 'Samsung', label: 'Samsung', checked: false },
-    { value: 'OPPO', label: 'OPPO', checked: false },
-    { value: 'Huawei', label: 'Huawei', checked: false },
-    { value: 'Microsoft Surface',
-      label: 'Microsoft Surface',
-      checked: false },
-    { value: 'Infinix', label: 'Infinix', checked: false },
-    { value: 'HP Pavilion', label: 'HP Pavilion', checked: false },
-    { value: 'Impression of Acqua Di Gio',
-      label: 'Impression of Acqua Di Gio',
-      checked: false },
-    { value: 'Royal_Mirage', label: 'Royal_Mirage', checked: false },
-    { value: 'Fog Scent Xpressio',
-      label: 'Fog Scent Xpressio',
-      checked: false },
-    { value: 'Al Munakh', label: 'Al Munakh', checked: false },
-    { value: 'Lord - Al-Rehab',
-      label: 'Lord - Al-Rehab',
-      checked: false },
-    { value: 'L\'Oreal Paris',
-      label: 'L\'Oreal Paris',
-      checked: false },
-    { value: 'Hemani Tea', label: 'Hemani Tea', checked: false },
-    { value: 'Dermive', label: 'Dermive', checked: false },
-    { value: 'ROREC White Rice',
-      label: 'ROREC White Rice',
-      checked: false },
-    { value: 'Fair & Clear', label: 'Fair & Clear', checked: false },
-    { value: 'Saaf & Khaas', label: 'Saaf & Khaas', checked: false },
-    { value: 'Bake Parlor Big',
-      label: 'Bake Parlor Big',
-      checked: false },
-    { value: 'Baking Food Items',
-      label: 'Baking Food Items',
-      checked: false },
-    { value: 'fauji', label: 'fauji', checked: false },
-    { value: 'Dry Rose', label: 'Dry Rose', checked: false },
-    { value: 'Boho Decor', label: 'Boho Decor', checked: false },
-    { value: 'Flying Wooden',
-      label: 'Flying Wooden',
-      checked: false },
-    { value: 'LED Lights', label: 'LED Lights', checked: false },
-    { value: 'luxury palace',
-      label: 'luxury palace',
-      checked: false },
-    { value: 'Golden', label: 'Golden', checked: false } ],
+    id: "brand",
+    name: "brand",
+    options: [
+      { value: "Apple", label: "Apple", checked: false },
+      { value: "Samsung", label: "Samsung", checked: false },
+      { value: "OPPO", label: "OPPO", checked: false },
+      { value: "Huawei", label: "Huawei", checked: false },
+      {
+        value: "Microsoft Surface",
+        label: "Microsoft Surface",
+        checked: false,
+      },
+      { value: "Infinix", label: "Infinix", checked: false },
+      { value: "HP Pavilion", label: "HP Pavilion", checked: false },
+      {
+        value: "Impression of Acqua Di Gio",
+        label: "Impression of Acqua Di Gio",
+        checked: false,
+      },
+      { value: "Royal_Mirage", label: "Royal_Mirage", checked: false },
+      {
+        value: "Fog Scent Xpressio",
+        label: "Fog Scent Xpressio",
+        checked: false,
+      },
+      { value: "Al Munakh", label: "Al Munakh", checked: false },
+      { value: "Lord - Al-Rehab", label: "Lord - Al-Rehab", checked: false },
+      { value: "L'Oreal Paris", label: "L'Oreal Paris", checked: false },
+      { value: "Hemani Tea", label: "Hemani Tea", checked: false },
+      { value: "Dermive", label: "Dermive", checked: false },
+      { value: "ROREC White Rice", label: "ROREC White Rice", checked: false },
+      { value: "Fair & Clear", label: "Fair & Clear", checked: false },
+      { value: "Saaf & Khaas", label: "Saaf & Khaas", checked: false },
+      { value: "Bake Parlor Big", label: "Bake Parlor Big", checked: false },
+      {
+        value: "Baking Food Items",
+        label: "Baking Food Items",
+        checked: false,
+      },
+      { value: "fauji", label: "fauji", checked: false },
+      { value: "Dry Rose", label: "Dry Rose", checked: false },
+      { value: "Boho Decor", label: "Boho Decor", checked: false },
+      { value: "Flying Wooden", label: "Flying Wooden", checked: false },
+      { value: "LED Lights", label: "LED Lights", checked: false },
+      { value: "luxury palace", label: "luxury palace", checked: false },
+      { value: "Golden", label: "Golden", checked: false },
+    ],
   },
   {
     id: "category",
-    name: "Category",
+    name: "category",
     options: [
       { value: "new-arrivals", label: "New Arrivals", checked: false },
       { value: "sale", label: "Sale", checked: false },
@@ -128,12 +116,33 @@ function classNames(...classes) {
 export function ProductsList() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.product.products.products);
-  console.log(products);
+  const products = useSelector((state) => state.product.products);
+
+  const [filter, setFilter] = useState({});
+
+  const handleChange = (e, section, option) => {
+    console.log(e.target.checked);
+    const newFilters = { ...filter };
+    if (e.target.checked) {
+      if (newFilters[section.id]) {
+        newFilters[section.id].push(option.value);
+      } else {
+        newFilters[section.id] = [option.value];
+      }
+    } else {
+      newFilters[section.id] = newFilters[section.id].filter(
+        (value) => value !== option.value
+      );
+    }
+
+    setFilter(newFilters);
+    // dispatch(fetchAllProductsByFilterAsync(filter));
+  };
 
   useEffect(() => {
-    dispatch(fetchAllProductsAsync());
-  }, [dispatch]);
+    // dispatch(fetchAllProductsAsync(filter));
+    dispatch(fetchAllProductsByFilterAsync(filter))
+  }, [dispatch, filter]);
   return (
     <>
       <div className="bg-white">
@@ -392,6 +401,9 @@ export function ProductsList() {
                                     name={`${section.id}[]`}
                                     defaultValue={option.value}
                                     type="checkbox"
+                                    onChange={(e) =>
+                                      handleChange(e, section, option)
+                                    }
                                     defaultChecked={option.checked}
                                     className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                   />
@@ -425,11 +437,8 @@ export function ProductsList() {
                         <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                           {products &&
                             products.map((product) => (
-                              <Link to="/productDetails">
-                                <div
-                                  key={product.id}
-                                  className="group relative border border-3 p-2 rounded-lg"
-                                >
+                              <Link key={product.id} to="/productDetails">
+                                <div className="group relative border border-3 p-2 rounded-lg">
                                   <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
                                     <img
                                       src={product.thumbnail}
