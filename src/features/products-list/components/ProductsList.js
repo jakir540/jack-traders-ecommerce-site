@@ -16,7 +16,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAllProductsAsync,
   fetchAllProductsByFilterAsync,
+  fetchBrandsProductsAsync,
+  fetchCategoriesProductsAsync,
   selectAllProducts,
+  selectBrands,
+  selectCategory,
 } from "../ProductsListSlice";
 import { fetchAllProductsByFilter } from "../ProductsListApi";
 
@@ -34,80 +38,7 @@ const subCategories = [
   { name: "Laptop Sleeves", href: "#" },
   { name: "home-decoration", href: "#" },
 ];
-const filters = [
-  {
-    id: "brand",
-    name: "brand",
-    options: [
-      { value: "Apple", label: "Apple", checked: false },
-      { value: "Samsung", label: "Samsung", checked: false },
-      { value: "OPPO", label: "OPPO", checked: false },
-      { value: "Huawei", label: "Huawei", checked: false },
-      {
-        value: "Microsoft Surface",
-        label: "Microsoft Surface",
-        checked: false,
-      },
-      { value: "Infinix", label: "Infinix", checked: false },
-      { value: "HP Pavilion", label: "HP Pavilion", checked: false },
-      {
-        value: "Impression of Acqua Di Gio",
-        label: "Impression of Acqua Di Gio",
-        checked: false,
-      },
-      { value: "Royal_Mirage", label: "Royal_Mirage", checked: false },
-      {
-        value: "Fog Scent Xpressio",
-        label: "Fog Scent Xpressio",
-        checked: false,
-      },
-      { value: "Al Munakh", label: "Al Munakh", checked: false },
-      { value: "Lord - Al-Rehab", label: "Lord - Al-Rehab", checked: false },
-      { value: "L'Oreal Paris", label: "L'Oreal Paris", checked: false },
-      { value: "Hemani Tea", label: "Hemani Tea", checked: false },
-      { value: "Dermive", label: "Dermive", checked: false },
-      { value: "ROREC White Rice", label: "ROREC White Rice", checked: false },
-      { value: "Fair & Clear", label: "Fair & Clear", checked: false },
-      { value: "Saaf & Khaas", label: "Saaf & Khaas", checked: false },
-      { value: "Bake Parlor Big", label: "Bake Parlor Big", checked: false },
-      {
-        value: "Baking Food Items",
-        label: "Baking Food Items",
-        checked: false,
-      },
-      { value: "fauji", label: "fauji", checked: false },
-      { value: "Dry Rose", label: "Dry Rose", checked: false },
-      { value: "Boho Decor", label: "Boho Decor", checked: false },
-      { value: "Flying Wooden", label: "Flying Wooden", checked: false },
-      { value: "LED Lights", label: "LED Lights", checked: false },
-      { value: "luxury palace", label: "luxury palace", checked: false },
-      { value: "Golden", label: "Golden", checked: false },
-    ],
-  },
-  {
-    id: "category",
-    name: "category",
-    options: [
-      { value: "new-arrivals", label: "New Arrivals", checked: false },
-      { value: "sale", label: "Sale", checked: false },
-      { value: "travel", label: "Travel", checked: true },
-      { value: "organization", label: "Organization", checked: false },
-      { value: "accessories", label: "Accessories", checked: false },
-    ],
-  },
-  {
-    id: "size",
-    name: "Size",
-    options: [
-      { value: "2l", label: "2L", checked: false },
-      { value: "6l", label: "6L", checked: false },
-      { value: "12l", label: "12L", checked: false },
-      { value: "18l", label: "18L", checked: false },
-      { value: "20l", label: "20L", checked: false },
-      { value: "40l", label: "40L", checked: true },
-    ],
-  },
-];
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -116,7 +47,12 @@ function classNames(...classes) {
 export function ProductsList() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.product.products);
+  // const products = useSelector((state) => state.product.products);
+  const products = useSelector(selectAllProducts)
+  const brands = useSelector(selectBrands)
+console.log({brands})
+  const category = useSelector(selectCategory)
+  console.log({category})
 
   const [filter, setFilter] = useState({});
 
@@ -139,10 +75,43 @@ export function ProductsList() {
     // dispatch(fetchAllProductsByFilterAsync(filter));
   };
 
+
+//filters
+const filters = [
+  {
+    id: "brand",
+    name: "brand",
+    options: brands
+  },
+  {
+    id: "category",
+    name: "category",
+    options: category
+  },
+  {
+    id: "size",
+    name: "Size",
+    options: [
+      { value: "2l", label: "2L", checked: false },
+      { value: "6l", label: "6L", checked: false },
+      { value: "12l", label: "12L", checked: false },
+      { value: "18l", label: "18L", checked: false },
+      { value: "20l", label: "20L", checked: false },
+      { value: "40l", label: "40L", checked: true },
+    ],
+  },
+];
+
+
   useEffect(() => {
     // dispatch(fetchAllProductsAsync(filter));
     dispatch(fetchAllProductsByFilterAsync(filter))
   }, [dispatch, filter]);
+
+  useEffect(()=>{
+    dispatch(fetchBrandsProductsAsync())
+    dispatch(fetchCategoriesProductsAsync())
+  },[dispatch])
   return (
     <>
       <div className="bg-white">
@@ -437,7 +406,7 @@ export function ProductsList() {
                         <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                           {products &&
                             products.map((product) => (
-                              <Link key={product.id} to="/productDetails">
+                              <Link key={product.id} to={`/productDetails/${product.id}`}>
                                 <div className="group relative border border-3 p-2 rounded-lg">
                                   <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
                                     <img
