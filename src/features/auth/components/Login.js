@@ -1,6 +1,19 @@
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+
+
+  const onSubmit = (data) => console.log(data);
+
+  
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -15,7 +28,7 @@ const Login = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" action="#" method="POST">
+        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label
               htmlFor="email"
@@ -26,7 +39,7 @@ const Login = () => {
             <div className="mt-2">
               <input
                 id="email"
-                name="email"
+                {...register("email", { required: true })}
                 type="email"
                 autoComplete="email"
                 required
@@ -55,7 +68,7 @@ const Login = () => {
             <div className="mt-2">
               <input
                 id="password"
-                name="password"
+                {...register("password", { required: true })}
                 type="password"
                 autoComplete="current-password"
                 required
@@ -77,7 +90,7 @@ const Login = () => {
         <p className="mt-10 text-center text-sm text-gray-500">
           Not a member?{" "}
           <Link
-           to="/signup"
+            to="/signup"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
             Create An Account

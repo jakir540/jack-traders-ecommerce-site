@@ -48,7 +48,9 @@
       "brand": "Samsung",
       "category": "smartphones",
       "thumbnail": "https://cdn.dummyjson.com/product-images/3/thumbnail.jpg",
-      "images": ["https://cdn.dummyjson.com/product-images/3/1.jpg"]
+      "images": [
+        "https://cdn.dummyjson.com/product-images/3/1.jpg"
+      ]
     },
     {
       "id": 4,
@@ -1426,7 +1428,9 @@
       "brand": "Fashion Jewellery",
       "category": "womens-jewellery",
       "thumbnail": "https://cdn.dummyjson.com/product-images/78/thumbnail.jpg",
-      "images": ["https://cdn.dummyjson.com/product-images/78/thumbnail.jpg"]
+      "images": [
+        "https://cdn.dummyjson.com/product-images/78/thumbnail.jpg"
+      ]
     },
     {
       "id": 79,
@@ -1439,7 +1443,9 @@
       "brand": "Fashion Jewellery",
       "category": "womens-jewellery",
       "thumbnail": "https://cdn.dummyjson.com/product-images/79/thumbnail.jpg",
-      "images": ["https://cdn.dummyjson.com/product-images/79/1.jpg"]
+      "images": [
+        "https://cdn.dummyjson.com/product-images/79/1.jpg"
+      ]
     },
     {
       "id": 80,
@@ -1834,7 +1840,7 @@
       ]
     }
   ],
-  "brand":[
+  "brand": [
     {
       "value": "Apple",
       "label": "Apple",
@@ -1971,7 +1977,7 @@
       "checked": false
     }
   ],
-  "category":[
+  "category": [
     {
       "value": "new-arrivals",
       "label": "New Arrivals",
@@ -1997,6 +2003,26 @@
       "label": "Accessories",
       "checked": false
     }
+  ],
+  "users": [
+    {
+      "id": "38d7",
+      "name": "MdJakirhossain",
+      "email": "jakirhossainmd540@gmail.com",
+      "password": "Jakir540@",
+      "confiemPassword": "Jakir540@"
+    },
+    {
+      "id": "425b",
+      "email": "saifhasan00000279@gmail.com",
+      "name": "MdJakirhossain",
+      "password": "Jakir540@"
+    },
+    {
+      "id": "ea4e",
+      "email": "jakirhossainmd540@gmail.com",
+      "name": "hasin",
+      "password": "Jakir540#"
+    }
   ]
-  
 }
