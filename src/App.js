@@ -10,6 +10,7 @@ import CartPage from "./pages/CartPage";
 import Checkout from "./pages/Checkout";
 import ProductDetails from "./features/products-list/components/ProductDetails";
 import ProductDetailPage from "./pages/ProductDetailPage";
+import Protected from "./features/auth/components/Protected";
 
 const router = createBrowserRouter([
   {
@@ -30,11 +31,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/checkout",
-    element: <Checkout></Checkout>,
+    element: (
+      <Protected>
+        <Checkout></Checkout>
+      </Protected>
+    ),
   },
   {
     path: "/productDetails/:id",
-    element: <ProductDetailPage></ProductDetailPage>,
+    element: (
+      <Protected>
+        <ProductDetailPage></ProductDetailPage>
+      </Protected>
+    ),
   },
 ]);
 
